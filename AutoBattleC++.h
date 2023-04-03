@@ -8,12 +8,14 @@ class BattleField;
 class Game
 {
 public:
-    Game();
+    Game(){};
+    void StartNewMatch();
     void GameLoop();
+    void SetupPlayers();
     
 private:
     BattleField* _battlefield;
-    std::list<Player> _players;
+    std::list<Player*> _players;
     
     int _turnCounter = 0;
     int _defeatedPlayers = 0;
