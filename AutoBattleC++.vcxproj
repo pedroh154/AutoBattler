@@ -284,7 +284,7 @@
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="Battlefield\GridBox.cpp" />
+    <ClCompile Include="Battlefield\Tile.cpp" />
     <ClCompile Include="Characters\Archer.cpp" />
     <ClCompile Include="Characters\Character.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -368,7 +368,7 @@
     <ClInclude Include="AutoBattleC++.h" />
     <ClInclude Include="Battlefield\BattleField.h" />
     <ClInclude Include="Battlefield\Grid.h" />
-    <ClInclude Include="Battlefield\GridBox.h" />
+    <ClInclude Include="Battlefield\Tile.h" />
     <ClInclude Include="Characters\Archer.h" />
     <ClInclude Include="Characters\Character.h" />
     <ClInclude Include="Characters\Cleric.h" />

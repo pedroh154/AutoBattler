@@ -13,7 +13,7 @@ void Game::StartNewMatch()
 {
     SetupPlayers();
     _battlefield = new(BattleField);
-   GameLoop();
+    GameLoop();
 }
 
 void Game::SetupPlayers()
@@ -36,7 +36,7 @@ void Game::GameLoop()
 {
     while(true)
     {
-        //_battlefield->Draw();
+        _battlefield->DrawGrid();
     }
 }
 

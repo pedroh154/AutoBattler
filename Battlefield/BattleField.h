@@ -11,11 +11,13 @@ class BattleField
 public:
 	BattleField();
 	void CreateCharacter(int teamNum);
+	void DrawGrid();
 
 private:
 	Character* AllocateCharacter(int classIndex, int teamNum);
 	
 	Grid* _grid;
+	
 	int _currentTurn;
 
 	void Setup();

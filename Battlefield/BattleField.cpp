@@ -49,6 +49,11 @@ void BattleField::CreateCharacter(int teamNum)
     }
 }
 
+void BattleField::DrawGrid()
+{
+    _grid->Draw();
+}
+
 Character* BattleField::AllocateCharacter(int classIndex, int teamNum)
 {
     Character* allocatedChar = nullptr;
