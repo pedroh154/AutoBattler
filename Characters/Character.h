@@ -8,10 +8,10 @@ public:
     ~Character();
 
 protected:
-    float Health;
-    float BaseDamage;
-    float DamageMultiplier;
-    int TeamNum;
+    float Health = 100.0f;
+    float BaseDamage = 30.0f;
+    float DamageMultiplier = 1.0f;
+    int TeamNum = -1;
 
     
 
