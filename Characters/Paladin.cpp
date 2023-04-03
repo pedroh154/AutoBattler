@@ -1,0 +1,1 @@
+﻿#include "Paladin.h"
