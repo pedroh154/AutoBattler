@@ -34,17 +34,24 @@ Grid::~Grid()
 
 void Grid::Draw()
 {
-    for (auto row: _tiles)
+    for (int row = 0; row < _tiles.size(); row++)
     {
+        //coordinates
         std::cout << std::endl;
-        
-        for(const auto tile: row)
+        std::cout << row + 1;
+
+        //actual battlefield
+        for(int col = 0; col < _tiles[row].size(); col++)
         {
-            std::cout << tile->GetRowNum() << "," << tile->GetColumnNum() << " ";
+            std::cout << "[ ]" << std::endl;
         }
     }
 
-    std::cout << "------- END ------" << std:: endl;
+    //coordinates
+    for(int col = 1; col < _columns + 1; col++)
+    {
+        std::cout << col << " " << std::endl;
+    }
 }
 
 void Grid::drawBattlefield(int Lines, int Columns)
