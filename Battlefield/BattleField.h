@@ -1,4 +1,6 @@
 #pragma once
+#include <cinttypes>
+
 #include "../Characters/Character.h"
 
 class Player;
@@ -10,17 +12,17 @@ class BattleField
 	
 public:
 	BattleField();
-	void CreateCharacter(int teamNum);
+	void Setup();
 	void DrawGrid();
-
-private:
 	Character* AllocateCharacter(int classIndex, int teamNum);
+private:
+	
 	
 	Grid* _grid;
 	
 	int _currentTurn;
 
-	void Setup();
+	
 	
 	int numberOfPossibleTiles;
 	

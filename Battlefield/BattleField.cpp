@@ -10,7 +10,6 @@
 
 BattleField::BattleField()
 {
-    Setup();
 }
 
 void BattleField::Setup()
@@ -27,26 +26,13 @@ void BattleField::Setup()
         std::cout << "Enter number of columns: " << std::endl;
         std::cin >> sizeY;
     }
-   
-    _grid = new Grid(sizeX, sizeY);
-}
-
-void BattleField::CreateCharacter(int teamNum)
-{
-    int classToSpawn = -1;
     
-    std::cout << "Pick a class for your new character: " << std::endl;
-    std::cout << "[1] Paladin, [2] Warrior, [3] Cleric, [4] Archer" << std::endl;
-    std::cin >> classToSpawn;
+    _grid = new Grid(sizeX, sizeY);
 
-    if(classToSpawn > 0 && classToSpawn <= 4)
-    {
-        AllocateCharacter(classToSpawn, teamNum);
-    }
-    else
-    {
-        CreateCharacter(teamNum);
-    }
+    system("cls");
+    std::cout << "Battlefield size will be " << sizeX << " by " << sizeY << ", with " << sizeX * sizeY << " total tiles" << std::endl;
+    system("pause");
+    system("cls");
 }
 
 void BattleField::DrawGrid()
