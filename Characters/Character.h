@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class Character
 {
@@ -6,6 +7,8 @@ class Character
 public:
     Character(int teamNum);
     ~Character();
+
+    virtual std::string GetStringRepresentation() = 0;
 
 protected:
     float Health = 100.0f;

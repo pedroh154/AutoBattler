@@ -36,21 +36,31 @@ void Grid::Draw()
 {
     for (int row = 0; row < _tiles.size(); row++)
     {
-        //coordinates
+        //draw row coordinate
         std::cout << std::endl;
         std::cout << row + 1;
 
-        //actual battlefield
+        //draw actual battlefield
         for(int col = 0; col < _tiles[row].size(); col++)
         {
-            std::cout << "[ ]" << std::endl;
+            if(_tiles[row][col]->GetCurrentCharacter())
+            {
+                std::cout << "[  ]" << " ";
+            }
+            else
+            {
+                std::cout << "[  ]" << " ";
+            }
+            
         }
     }
 
-    //coordinates
+    std::cout << std::endl;
+    
+    //column coordinates
     for(int col = 1; col < _columns + 1; col++)
     {
-        std::cout << col << " " << std::endl;
+        std::cout << "  " << col << "  ";
     }
 }
 

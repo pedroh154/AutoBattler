@@ -15,3 +15,8 @@ int Tile::GetColumnNum() const
 {
     return _column;
 }
+
+Character* Tile::GetCurrentCharacter()
+{
+    return _currentCharacter;
+}

@@ -14,6 +14,7 @@ private:
 public:
     int GetRowNum() const;
     int GetColumnNum() const;
+    Character* GetCurrentCharacter();
 
 private:
     int _column;
