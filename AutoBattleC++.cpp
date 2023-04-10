@@ -56,10 +56,10 @@ void Game::SetupPlayers()
     {
         Player* newPlayer = new Player(teamNum);
         newPlayer->CpuControlled = true;
-        _cpuPlayers.push_back(newPlayer);
+        _players.push_back(newPlayer);
     }
 
-    assert((_players.size() + _cpuPlayers.size()) == totalPlayers);
+    assert((_players.size()) == totalPlayers);
 
     system("cls");
     std::cout << "Match will start with " << totalPlayers << " players, from which " << numOfCpu << " will be controlled by CPU." << std::endl;
@@ -69,41 +69,41 @@ void Game::SetupPlayers()
 
 void Game::PopulateBattlefield()
 {
-    //setup human controlled players' characters
     for(const auto player: _players)
     {
-        for(int i = 0; i < _numOfCharPerPlayer; i++)
+        if(!player->CpuControlled)
         {
-            int characterType = -1;
-            
-            while(!IsValidCharacterType(characterType))
+            for(int i = 0; i < _numOfCharPerPlayer; i++)
             {
-                std::cout << "--- PLAYER " << player->TeamNum << " Battlefield Initialization ---" << std::endl;
-                std::cout << "Select your character: [1] Paladin, [2] Warrior, [3] Cleric, [4] Archer" << std::endl;
-                std::cin >> characterType;
-
-                if(!IsValidCharacterType(characterType))
+                int characterType = -1;
+            
+                while(!IsValidCharacterType(characterType))
                 {
-                    std::cout << "Please type a valid character type" << std::endl;
+                    std::cout << "--- PLAYER " << player->GetName() << " Battlefield Initialization ---" << std::endl;
+                    std::cout << "Select your character: [1] Paladin, [2] Warrior, [3] Cleric, [4] Archer" << std::endl;
+                    std::cin >> characterType;
+
+                    if(!IsValidCharacterType(characterType))
+                    {
+                        std::cout << "Please type a valid character type" << std::endl;
+                    }
                 }
             }
+        }
+        else
+        {
+            std::cout << "--- Initializing " << player->GetName() << " battlefield ---" << std::endl;
+        
+            for(int i = 0; i < _numOfCharPerPlayer; i++)
+            {
+                _battlefield->AllocateCharacter(GetRandomCharacterType(), player->TeamNum);
+            }
+
+            system("pause");
         }
     }
 
     system("cls");
-    
-    //setup cpu players' characters
-    for(const auto cpuPlayer: _cpuPlayers)
-    {
-        std::cout << "--- Initializing CPU " << cpuPlayer->TeamNum << " battlefield ---" << std::endl;
-        
-        for(int i = 0; i < _numOfCharPerPlayer; i++)
-        {
-            _battlefield->AllocateCharacter(GetRandomCharacterType(), cpuPlayer->TeamNum);
-        }
-
-        system("pause");
-    }
 }
 
 void Game::GameLoop()
@@ -118,6 +118,11 @@ void Game::GameLoop()
 
 void Game::BeginTurn()
 {
+    _turnCounter++;
+
+    std::cout << "TURN [" << _turnCounter << "]" << std::endl;
+    system("pause");
+    
     for(auto player: _players)
     {
         if(!player->IsDefeated())

@@ -22,7 +22,6 @@ public:
 private:
     BattleField* _battlefield;
     std::list<Player*> _players;
-    std::list<Player*> _cpuPlayers;
     int _numOfCharPerPlayer = 0;
     
     int _turnCounter = 0;
