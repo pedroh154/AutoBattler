@@ -85,3 +85,8 @@ void Grid::drawBattlefield(int Lines, int Columns)
     // }
     // printf("\n");
 }
+
+bool Grid::IsValidTileCoordinate(int row, int col) const
+{
+    return _tiles[row][col] != nullptr;
+}

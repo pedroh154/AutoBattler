@@ -22,6 +22,8 @@ private:
     
     // prints the matrix that indicates the tiles of the battlefield
     void drawBattlefield(int Lines, int Columns);
+public:
+    bool IsValidTileCoordinate(int row, int col) const;
 };
 
 

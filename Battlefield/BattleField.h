@@ -19,7 +19,14 @@ private:
 	
 	
 	Grid* _grid;
-	
+
+public:
+	Grid* grid() const
+	{
+		return _grid;
+	}
+
+private:
 	int _currentTurn;
 
 	

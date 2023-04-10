@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string>
 
 class Player
 {
@@ -10,4 +11,7 @@ public:
     int TeamNum = -1;
     void OnTurnStarted();
     bool IsDefeated();
+
+public:
+    std::string GetName();
 };
