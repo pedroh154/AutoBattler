@@ -25,6 +25,10 @@ void Game::StartNewMatch()
     GameLoop();
 }
 
+void Game::EndMatch()
+{
+}
+
 void Game::SetupBattlefield()
 {
     int sizeX = 0;
@@ -211,6 +215,11 @@ void Game::GameLoop()
 {
     while(true)
     {
+        if(ReadyToEndMatch())
+        {
+            EndMatch();    
+        }
+        
         BeginTurn();
         system("pause");
         
@@ -259,13 +268,7 @@ Character* Game::AllocateCharacter(int classIndex, int teamNum)
     return allocatedChar;
 }
 
-
 bool Game::ReadyToEndMatch()
 {
-    return ( _turnCounter > 100 ) || ( _defeatedPlayers == _players.size() );
-}
-
-Player* Game::EndMatch()
-{
-    return nullptr;
+    return ( _turnCounter > 100 ) || ( _defeatedPlayers >= _players.size() );
 }
