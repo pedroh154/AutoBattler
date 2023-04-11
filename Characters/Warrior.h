@@ -6,7 +6,7 @@ class Warrior : public Character
 public:
     using Character::Character;
 
-    std::string GetStringRepresentation() override
+    std::string GetName() override
     {
         return "W" + std::to_string(TeamNum);
     }

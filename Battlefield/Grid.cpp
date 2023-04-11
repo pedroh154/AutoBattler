@@ -1,8 +1,7 @@
 #include "Grid.h"
-
 #include <iostream>
-
 #include "Tile.h"
+#include "BattleField.h"
 
 Grid::Grid(int rows, int columns)
 {
@@ -43,9 +42,10 @@ void Grid::Draw()
         //draw actual battlefield
         for(int col = 0; col < _tiles[row].size(); col++)
         {
-            if(_tiles[row][col]->GetCurrentCharacter())
+            Character* currChar = _tiles[row][col]->GetCurrentCharacter();
+            if(currChar)
             {
-                std::cout << "[  ]" << " ";
+                std::cout << "[" << currChar->GetName() << "]";
             }
             else
             {
@@ -88,5 +88,5 @@ void Grid::drawBattlefield(int Lines, int Columns)
 
 bool Grid::IsValidTileCoordinate(int row, int col) const
 {
-    return _tiles[row][col] != nullptr;
+    return (row > 0 && row <= _rows) && (col > 0 && col <= _columns);
 }

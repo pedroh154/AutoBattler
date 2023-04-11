@@ -9,6 +9,13 @@ public:
 private:
     Character* _currentCharacter = nullptr;
 
+public:
+    void SetCurrentCharacter(Character* current_character)
+    {
+        _currentCharacter = current_character;
+    }
+
+private:
     int _row;
 
 public:

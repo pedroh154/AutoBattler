@@ -1,35 +1,35 @@
 ﻿#pragma once
 #include <list>
 
-#include "Player.h"
-
+class Character;
 class BattleField;
+class Player;
 
 class Game
 {
 public:
     Game(){};
-    void PopulateBattlefield();
     void StartNewMatch();
-    void GameLoop();
-    void SetupPlayers();
-    void BeginTurn();
+    Player* EndMatch();
 
-    bool IsValidCharacterType(int characterType);
-
-    int GetRandomCharacterType();
-    
 private:
+    void SetupBattlefield();
+    void SetupPlayers();
+    void PopulateBattlefield();
+    void GameLoop();
+    void BeginTurn();
+    bool ReadyToEndMatch();
+    
+    Character* AllocateCharacter(int classIndex, int teamNum);
+    
     BattleField* _battlefield;
     std::list<Player*> _players;
-    int _numOfCharPerPlayer = 0;
     
+    int _numOfCharPerPlayer = 0;
     int _turnCounter = 0;
     int _defeatedPlayers = 0;
 
 public:
-    bool ReadyToEndMatch();
-
-    //returns match winner
-    Player* EndMatch();
+    bool IsValidCharacterType(int characterType);
+    int GetRandomCharacterType();
 };

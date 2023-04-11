@@ -1,13 +1,14 @@
 #include <cassert>
-
 #include "AutoBattleC++.h"
 #include "Player.h"
 #include "Battlefield/BattleField.h"
 #include <iostream>
-#include <conio.h>
-
 #include "Types.h"
 #include "Battlefield/Grid.h"
+#include "Characters/Archer.h"
+#include "Characters/Cleric.h"
+#include "Characters/Paladin.h"
+#include "Characters/Warrior.h"
 
 int main()
 {
@@ -17,14 +18,38 @@ int main()
 
 void Game::StartNewMatch()
 {
+    SetupBattlefield();
     SetupPlayers();
-    
-    _battlefield = new(BattleField);
-    _battlefield->Setup();
-    
     PopulateBattlefield();
     
     GameLoop();
+}
+
+void Game::SetupBattlefield()
+{
+    int sizeX = 0;
+    int sizeY = 0;
+
+    while (sizeX <= 0 || sizeY <= 0)
+    {
+        std::cout << "--- Battlefield configuration ---" << std::endl;
+        std::cout << "Enter number of rows: " << std::endl;
+        std::cin >> sizeX;
+
+        std::cout << "Enter number of columns: " << std::endl;
+        std::cin >> sizeY;
+    }
+    
+    _battlefield = new BattleField(sizeX, sizeY);
+
+    system("cls");
+    std::cout << "Battlefield size will be " << sizeX << " by " << sizeY << ", with " << sizeX * sizeY << " total tiles" << std::endl;
+    system("pause");
+    system("cls");
+    
+    _battlefield->DrawGrid();
+    system("pause");
+    system("cls");
 }
 
 void Game::SetupPlayers()
@@ -33,7 +58,7 @@ void Game::SetupPlayers()
     int numOfCpu = 0;
     
     std::cout << "--- Match configuration ---" << std::endl;
-    std::cout << "Enter number of players: " << std::endl;
+    std::cout << "Enter number of human players: " << std::endl;
     std::cin >> numOfPlayers;
     
     std::cout << "Enter number of CPU controlled players: " << std::endl;
@@ -43,7 +68,8 @@ void Game::SetupPlayers()
     std::cin >> _numOfCharPerPlayer;
     
     const int totalPlayers = numOfCpu + numOfPlayers;
-    
+
+    //avoid team 0
     int teamNum = 1;
    
     for(; teamNum < numOfPlayers + 1; teamNum++)
@@ -69,113 +95,134 @@ void Game::SetupPlayers()
 
 void Game::PopulateBattlefield()
 {
-    for(const auto player: _players)
+    int charTypeChoice = -1;
+    int rowChoice = -1;
+    int colChoice = -1;
+    int numOfInitializedChars;
+    
+    for(auto player: _players)
     {
+        numOfInitializedChars = 0;
+
+        system("cls");
+        std::cout << player->GetName() << ": POPULATE YOUR BATTLEFIELD" << std::endl;
+        
+        _battlefield->DrawGrid();
+        
         if(!player->CpuControlled)
         {
-            for(int i = 0; i < _numOfCharPerPlayer; i++)
+            while(numOfInitializedChars != _numOfCharPerPlayer)
             {
-                int characterType = -1;
-            
-                while(!IsValidCharacterType(characterType))
+                //pick player choices
+                
+                //char choice
+                bool validCharChoice = false;
+                while(!validCharChoice)
                 {
-                    std::cout << "--- PLAYER " << player->GetName() << " Battlefield Initialization ---" << std::endl;
-                    std::cout << "Select your character: [1] Paladin, [2] Warrior, [3] Cleric, [4] Archer" << std::endl;
-                    std::cin >> characterType;
+                    std::cout << "Type your character's class" << std::endl;
+                    std::cin >> charTypeChoice;
 
-                    if(!IsValidCharacterType(characterType))
+                    if(!IsValidCharacterType(charTypeChoice))
                     {
-                        std::cout << "Please type a valid character type" << std::endl;
+                        std::cout << "Invalid character class!" << std::endl;
+                        system("pause");
+                        system("cls");
+                    }
+                    else
+                    {
+                        validCharChoice = true;
                     }
                 }
+                
+
+                //coordinates choice
+                bool validCoordChoice = false;
+                bool unoccupiedCoordChoice = false;
+                while(!validCoordChoice || !unoccupiedCoordChoice)
+                {
+                    std::cout << "Type your character's row" << std::endl;
+                    std::cin >> rowChoice;
+
+                    std::cout << "Type your character's column" << std::endl;
+                    std::cin >> colChoice;
+
+                    //valid coordinate?
+                    if(_battlefield->GetGrid()->IsValidTileCoordinate(rowChoice, colChoice))
+                    {
+                        validCoordChoice = true;
+
+                        //coordinate unoccupied?
+                        if(!_battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1]->GetCurrentCharacter())
+                        {
+                            unoccupiedCoordChoice = true;
+                        }
+                        else
+                        {
+                            std::cout << "This tile is already occupied!" << std::endl;
+                            system("pause");
+                            system("cls");
+                        }    
+                    }
+                    else
+                    {
+                        std::cout << "Invalid coordinate!" << std::endl;
+                        system("pause");
+                        system("cls");
+                    }
+                }
+
+                Character* newChar = AllocateCharacter(charTypeChoice, player->TeamNum);
+                _battlefield->InsertCharacterInBattlefield(newChar, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1]);
+                
+                numOfInitializedChars++;
+
+                system("cls");
+                _battlefield->DrawGrid();
+                system("pause");
             }
         }
+            
+        
         else
         {
-            std::cout << "--- Initializing " << player->GetName() << " battlefield ---" << std::endl;
-        
-            for(int i = 0; i < _numOfCharPerPlayer; i++)
-            {
-                _battlefield->AllocateCharacter(GetRandomCharacterType(), player->TeamNum);
-            }
+            std::cout << player->GetName() << " is making choices..." << std::endl;
 
+            while(numOfInitializedChars != _numOfCharPerPlayer)
+            {
+                charTypeChoice = GetRandomCharacterType();
+                rowChoice = _battlefield->GetRandomRow();
+                colChoice = _battlefield->GetRandomCol();
+                
+                Character* newChar = AllocateCharacter(charTypeChoice, player->TeamNum);
+                _battlefield->InsertCharacterInBattlefield(newChar, _battlefield->GetGrid()->_tiles[rowChoice][colChoice]);
+                
+                numOfInitializedChars++;
+
+                std::cout << "inserted " << newChar->GetName() << " @ " << rowChoice << ", " << colChoice << std::endl;
+            }
+            
             system("pause");
+            system("cls");
         }
     }
-
-    system("cls");
 }
 
 void Game::GameLoop()
 {
     while(true)
     {
+        BeginTurn();
+        system("pause");
+        
         _battlefield->DrawGrid();
         system("pause");
-        BeginTurn();
     }
 }
 
 void Game::BeginTurn()
 {
     _turnCounter++;
-
     std::cout << "TURN [" << _turnCounter << "]" << std::endl;
-    system("pause");
-    
-    for(auto player: _players)
-    {
-        if(!player->IsDefeated())
-        {
-            bool validChoice = false;
-            
-            std::cout << player->GetName() << "'s turn" << std::endl;
-
-            //char choice
-            int charTypeChoice = -1;
-            while(!validChoice)
-            {
-                std::cout << "Type your character's class" << std::endl;
-                std::cin >> charTypeChoice;
-
-                if(!IsValidCharacterType(charTypeChoice))
-                {
-                    std::cout << "Invalid character class!" << std::endl;
-                    system("pause");
-                }
-                else
-                {
-                    validChoice = true;
-                }
-            }
-
-            validChoice = false;
-            
-            //coordinates choice
-            int rowChoice = -1;
-            int colChoice = -1;
-            while(!validChoice)
-            {
-                std::cout << "Type your character's row" << std::endl;
-                std::cin >> rowChoice;
-
-                std::cout << "Type your character's column" << std::endl;
-                std::cin >> colChoice;
-
-                if(!_battlefield->grid()->IsValidTileCoordinate(rowChoice, colChoice))
-                {
-                    std::cout << "Invalid coordinates!" << std::endl;
-                    system("pause");
-                }
-                else
-                {
-                    validChoice = true;
-                }
-            }
-            
-            player->OnTurnStarted();
-        }
-    }
 }
 
 bool Game::IsValidCharacterType(int characterType)
@@ -183,12 +230,35 @@ bool Game::IsValidCharacterType(int characterType)
     return characterType > 0 && characterType < Types::CharacterClass::MAX;
 }
 
-
 int Game::GetRandomCharacterType()
 {
     srand(time(nullptr));
     return 1 + (rand() % Types::MAX - 1);
 }
+
+Character* Game::AllocateCharacter(int classIndex, int teamNum)
+{
+    Character* allocatedChar = nullptr;
+    
+    switch(classIndex)
+    {
+    case 1:
+        allocatedChar = new Paladin(teamNum);
+        break;
+    case 2:
+        allocatedChar = new Warrior(teamNum);
+        break;
+    case 3:
+        allocatedChar = new Cleric(teamNum);
+        break;
+    case 4:
+        allocatedChar = new Archer(teamNum);
+        break;
+    }
+
+    return allocatedChar;
+}
+
 
 bool Game::ReadyToEndMatch()
 {

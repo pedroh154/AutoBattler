@@ -1,8 +1,7 @@
 #pragma once
-#include <cinttypes>
-
 #include "../Characters/Character.h"
 
+struct Tile;
 class Player;
 class Character;
 class Grid;
@@ -11,42 +10,23 @@ class BattleField
 {
 	
 public:
-	BattleField();
-	void Setup();
+	BattleField(int gridRowNum, int gridColNum);
 	void DrawGrid();
-	Character* AllocateCharacter(int classIndex, int teamNum);
+	void InsertCharacterInBattlefield(Character* character, Tile* tile);
+
 private:
-	
-	
 	Grid* _grid;
+	Character* AllocateCharacter(int classIndex, int teamNum);
 
 public:
-	Grid* grid() const
+	Grid* GetGrid() const
 	{
 		return _grid;
 	}
-
-private:
-	int _currentTurn;
-
 	
-	
-	int numberOfPossibleTiles;
-	
-
-	void StartGame();
-
-	void StartTurn();
-
-	void HandleTurn();
-
 	int GetRandomInt(int min, int max);
-
-	void AlocatePlayers();
-
-	void AlocatePlayerCharacter();
-
-	void AlocateEnemyCharacter();
+	int GetRandomRow();
+	int GetRandomCol();
 	
 };
 

@@ -10,6 +10,7 @@ Character::~Character()
 
 }
 
+
 // bool Character::TakeDamage(float amount) 
 // {
 // 	if ((Health -= BaseDamage) <= 0) 

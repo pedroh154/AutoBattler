@@ -1,14 +1,20 @@
 #pragma once
 #include <string>
 
+class Game;
+
 class Character
 {
+    friend Game;
     
+private:
+
+
 public:
     Character(int teamNum);
     ~Character();
 
-    virtual std::string GetStringRepresentation() = 0;
+    virtual std::string GetName() = 0;
 
 protected:
     float Health = 100.0f;
