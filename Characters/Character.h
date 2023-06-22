@@ -3,7 +3,6 @@
 #include "../Utils.h"
 #include "../Player.h"
 
-class Tile;
 class Game;
 
 struct CharAttributes
@@ -53,7 +52,6 @@ class Character
 public:
     Character(Player* owner, Tile* tile);
     virtual ~Character() = default;
-
     
     virtual void Move();
     virtual Character* ScanForTarget();

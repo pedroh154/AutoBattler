@@ -292,16 +292,16 @@ Character* Game::AllocateCharacter(int classIndex, Player* owner, Tile* tile)
         allocatedChar = new Paladin(owner, tile);
         break;
     case 2:
-        //allocatedChar = new Warrior(owner,tile);
+        allocatedChar = new Warrior(owner,tile);
         break;
     case 3:
-         //allocatedChar = new Cleric(owner, tile);
+         allocatedChar = new Cleric(owner, tile);
         break;
     case 4:
-        //allocatedChar = new Archer(owner, tile);
+        allocatedChar = new Archer(owner, tile);
         break;
     default:
-        //allocatedChar = new Paladin(owner, tile);
+        allocatedChar = new Paladin(owner, tile);
         break;
     }
 

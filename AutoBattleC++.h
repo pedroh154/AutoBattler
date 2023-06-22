@@ -5,6 +5,7 @@
 
 #include "Battlefield/Tile.h"
 
+struct Tile;
 class Character;
 class BattleField;
 class Player;

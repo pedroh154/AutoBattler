@@ -1,7 +1,7 @@
 ﻿#pragma once
 
+struct Tile;
 class Character;
-class Tile;
 
 class Utils
 {
