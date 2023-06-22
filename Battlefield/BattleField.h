@@ -12,11 +12,11 @@ class BattleField
 public:
 	BattleField(int gridRowNum, int gridColNum);
 	void DrawGrid();
-	void InsertCharacterInBattlefield(Character* character, Tile* tile);
+
 
 private:
 	Grid* _grid;
-	Character* AllocateCharacter(int classIndex, int teamNum);
+	
 
 public:
 	Grid* GetGrid() const
@@ -27,6 +27,8 @@ public:
 	int GetRandomInt(int min, int max);
 	int GetRandomRow();
 	int GetRandomCol();
+
+	virtual Character* GetClosestCharacterFrom(Tile* tile, bool ignoreSameTeam = false);
 	
 };
 

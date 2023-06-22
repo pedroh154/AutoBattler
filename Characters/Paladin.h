@@ -8,6 +8,6 @@ public:
 
     std::string GetName() override
     {
-        return "P" + std::to_string(_teamNum);
+        return "P" + std::to_string(GetTeamNum());
     }
 };

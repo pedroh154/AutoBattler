@@ -3,7 +3,8 @@
 #include <random>
 #include <Vector>
 
-struct Tile;
+#include "Battlefield/Tile.h"
+
 class Character;
 class BattleField;
 class Player;
@@ -25,7 +26,7 @@ private:
     void GameLoop();
     void BeginTurn();
     
-    Character* AllocateCharacter(int classIndex, Tile* tile, Player* owner);
+    Character* AllocateCharacter(int classIndex, Player* owner, Tile* tile);
     
     BattleField* _battlefield;
     std::vector<Player*> _players;

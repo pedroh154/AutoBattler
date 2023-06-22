@@ -13,14 +13,6 @@ void BattleField::DrawGrid()
     _grid->Draw();
 }
 
-void BattleField::InsertCharacterInBattlefield(Character* character, Tile* tile)
-{
-    if(character && tile && !tile->GetCurrentCharacter())
-    {
-        tile->SetCurrentCharacter(character);
-    }
-}
-
 int BattleField::GetRandomRow()
 {
     srand(time(nullptr));
@@ -31,6 +23,11 @@ int BattleField::GetRandomCol()
 {
     srand(time(nullptr));
     return rand() % _grid->_tiles[GetRandomRow()].size();
+}
+
+Character* BattleField::GetClosestCharacterFrom(Tile* tile, bool ignoreSameTeam)
+{
+    return nullptr;
 }
 
 int BattleField::GetRandomInt(int min, int max)

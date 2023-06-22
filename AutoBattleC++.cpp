@@ -8,6 +8,7 @@
 #include "Characters/Archer.h"
 #include "Characters/Cleric.h"
 #include "Characters/Paladin.h"
+#include "Characters/Character.h"
 #include "Characters/Warrior.h"
 
 int main()
@@ -173,9 +174,7 @@ void Game::PopulateBattlefield()
                     }
                 }
 
-                Character* newChar = AllocateCharacter(charTypeChoice, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1], player);
-                _battlefield->InsertCharacterInBattlefield(newChar, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1]);
-                _characters[0][1];
+                Character* newChar = AllocateCharacter(charTypeChoice, player, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1]);
                 
                 numOfInitializedChars++;
 
@@ -196,8 +195,7 @@ void Game::PopulateBattlefield()
                 rowChoice = _battlefield->GetRandomRow();
                 colChoice = _battlefield->GetRandomCol();
                 
-                Character* newChar = AllocateCharacter(charTypeChoice, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1], player);
-                _battlefield->InsertCharacterInBattlefield(newChar, _battlefield->GetGrid()->_tiles[rowChoice][colChoice]);
+                Character* newChar = AllocateCharacter(charTypeChoice, player, _battlefield->GetGrid()->_tiles[rowChoice][colChoice]);
                 
                 numOfInitializedChars++;
 
@@ -281,9 +279,10 @@ int Game::GetRandomCharacterType()
     return 1 + (rand() % Types::MAX - 1);
 }
 
-Character* Game::AllocateCharacter(int classIndex, Tile* tile, Player* owner)
+Character* Game::AllocateCharacter(int classIndex, Player* owner, Tile* tile)
 {
     assert(owner);
+    assert(tile->GetCurrentCharacter() == nullptr);
     
     Character* allocatedChar = nullptr;
     
@@ -293,13 +292,16 @@ Character* Game::AllocateCharacter(int classIndex, Tile* tile, Player* owner)
         allocatedChar = new Paladin(owner, tile);
         break;
     case 2:
-        allocatedChar = new Warrior(owner, tile);
+        //allocatedChar = new Warrior(owner,tile);
         break;
     case 3:
-        allocatedChar = new Cleric(owner, tile);
+         //allocatedChar = new Cleric(owner, tile);
         break;
     case 4:
-        allocatedChar = new Archer(owner, tile);
+        //allocatedChar = new Archer(owner, tile);
+        break;
+    default:
+        //allocatedChar = new Paladin(owner, tile);
         break;
     }
 
