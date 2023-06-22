@@ -1,5 +1,5 @@
 ﻿#include "Player.h"
-
+#include "Characters/Character.h"
 #include <iostream>
 
 Player::Player(int teamNum)
@@ -9,13 +9,9 @@ Player::Player(int teamNum)
 
 void Player::OnTurnStarted()
 {
-    if(CpuControlled)
+    for(auto character: MyCharacters)
     {
-        
-    }
-    else
-    {
-        
+        character->Move();
     }
 }
 

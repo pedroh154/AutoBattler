@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <list>
+#include <random>
+#include <Vector>
 
 class Character;
 class BattleField;
@@ -24,13 +26,27 @@ private:
     Character* AllocateCharacter(int classIndex, int teamNum);
     
     BattleField* _battlefield;
-    std::list<Player*> _players;
+    std::vector<Player*> _players;
+    std::vector<std::vector<Character*>>* _characters; //heap allocation
     
     int _numOfCharPerPlayer = 0;
     int _turnCounter = 0;
     int _defeatedPlayers = 0;
 
 public:
+    virtual void OnTurnStarted();
+    virtual void OnTurnEnded();
+    virtual Player* GetRandomPlayer();
+    
     virtual bool IsValidCharacterType(int characterType);
     int GetRandomCharacterType();
+
+    template<typename T>
+    void shuffleVector(const std::vector<T>& vector, std::vector<T>& randomizedVector)
+    {
+        randomizedVector = vector;
+        std::random_device rd;
+        std::mt19937 generator(rd());
+        std::shuffle(randomizedVector.begin(), randomizedVector.end(), generator);
+    }
 };

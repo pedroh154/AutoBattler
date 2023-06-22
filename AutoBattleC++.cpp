@@ -25,10 +25,6 @@ void Game::StartNewMatch()
     GameLoop();
 }
 
-void Game::EndMatch()
-{
-}
-
 void Game::SetupBattlefield()
 {
     int sizeX = 0;
@@ -73,6 +69,8 @@ void Game::SetupPlayers()
     
     const int totalPlayers = numOfCpu + numOfPlayers;
 
+    _characters = new std::vector<std::vector<Character*>>(totalPlayers);
+    
     //avoid team 0
     int teamNum = 1;
    
@@ -177,6 +175,7 @@ void Game::PopulateBattlefield()
 
                 Character* newChar = AllocateCharacter(charTypeChoice, player->TeamNum);
                 _battlefield->InsertCharacterInBattlefield(newChar, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1]);
+                _characters[0][1];
                 
                 numOfInitializedChars++;
 
@@ -232,6 +231,43 @@ void Game::BeginTurn()
 {
     _turnCounter++;
     std::cout << "TURN [" << _turnCounter << "]" << std::endl;
+
+    OnTurnStarted();
+}
+
+bool Game::ReadyToEndMatch()
+{
+    return ( _turnCounter > 100 ) || ( _defeatedPlayers >= _players.size() );
+}
+
+void Game::EndMatch()
+{
+}
+
+void Game::OnTurnStarted()
+{
+    assert(_players.size() > 0);
+
+    //determine this turns' order
+    std::vector<Player*> players;
+    shuffleVector(_players, players);
+    
+    for(auto player: players)
+    {
+        player->OnTurnStarted();
+    }
+}
+
+void Game::OnTurnEnded()
+{
+}
+
+Player* Game::GetRandomPlayer()
+{
+    for(int i = 0; i < _players.size(); i++)
+    {
+        return _players[_battlefield->GetRandomInt(0, _players.size())];
+    }
 }
 
 bool Game::IsValidCharacterType(int characterType)
@@ -268,7 +304,4 @@ Character* Game::AllocateCharacter(int classIndex, int teamNum)
     return allocatedChar;
 }
 
-bool Game::ReadyToEndMatch()
-{
-    return ( _turnCounter > 100 ) || ( _defeatedPlayers >= _players.size() );
-}
+

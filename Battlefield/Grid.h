@@ -3,6 +3,8 @@
 
 #include "Tile.h"
 
+typedef std::vector<std::vector<Tile*>> GridTiles;
+
 class Grid
 {
     friend class Battlefield;
@@ -11,7 +13,9 @@ public:
     ~Grid();
     
     void Draw();
-    std::vector<std::vector<Tile*>> _tiles;
+
+    
+    GridTiles _tiles;
 private:
     int _rows;
     int _columns;

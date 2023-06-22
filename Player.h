@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include <string>
+#include <Vector>
+
+class Character;
 
 class Player
 {
@@ -11,6 +14,9 @@ public:
     int TeamNum = -1;
     void OnTurnStarted();
     bool IsDefeated();
+
+protected:
+    std::vector<Character*> MyCharacters;
 
 public:
     std::string GetName();

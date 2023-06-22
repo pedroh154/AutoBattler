@@ -3,40 +3,76 @@
 
 class Game;
 
-class Character
+struct CharAttributes
 {
-    friend Game;
-    
 private:
-
-
-public:
-    Character(int teamNum);
-    ~Character();
-
-    virtual std::string GetName() = 0;
-
-protected:
     float Health = 100.0f;
     float BaseDamage = 30.0f;
     float DamageMultiplier = 1.0f;
-    int TeamNum = -1;
+
+public:
+    float GetHealth() const
+    {
+        return Health;
+    }
+
+    void SetHealth(float health)
+    {
+        Health = health;
+    }
+
+    float GetBaseDamage() const
+    {
+        return BaseDamage;
+    }
+
+    void SetBaseDamage(float base_damage)
+    {
+        BaseDamage = base_damage;
+    }
+
+    float GetDamageMultiplier() const
+    {
+        return DamageMultiplier;
+    }
+
+    void SetDamageMultiplier(float damage_multiplier)
+    {
+        DamageMultiplier = damage_multiplier;
+    }
+};
+
+class Character
+{
+    friend Game;
+
+protected:
+    int _teamNum = -1;
+
+public:
+    virtual ~Character() = default;
+    Character(int teamNum);
+    
+    CharAttributes CharacterAttributes;
+
+    virtual std::string GetName() = 0;
+
+    virtual void Move();
+    Character* ScanForTarget();
 
     
+    
+    int GetTeamNum() const
+    {
+        return _teamNum;
+    }
+    
+    void SetTeamNum(int teamNum)
+    {
+        if(teamNum > 0)
+            _teamNum = teamNum;
+    }
 
-   // bool TakeDamage(float amount);
-
-    //int getIndex(vector<Types::GridBox*> v, int index);
-
-   // void Die();
-
-   // void WalkTo(bool CanWalk);
-
-    //void StartTurn(Grid* battlefield);
-
-    //bool CheckCloseTargets(Grid* battlefield);
-
-   //void Attack(Character* target);
     
 };
 
