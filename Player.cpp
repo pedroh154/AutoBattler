@@ -20,6 +20,14 @@ bool Player::IsDefeated()
     return false;
 }
 
+void Player::AddCharacter(Character* character)
+{
+    if(character)
+    {
+        MyCharacters.push_back(character);
+    }
+}
+
 std::string Player::GetName()
 {
     std::string name = "Player " + std::to_string(TeamNum);

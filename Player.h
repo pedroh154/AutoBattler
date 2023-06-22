@@ -19,5 +19,6 @@ protected:
     std::vector<Character*> MyCharacters;
 
 public:
+    void AddCharacter(Character* character);
     std::string GetName();
 };

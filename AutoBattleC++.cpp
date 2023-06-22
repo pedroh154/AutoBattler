@@ -281,8 +281,10 @@ int Game::GetRandomCharacterType()
     return 1 + (rand() % Types::MAX - 1);
 }
 
-Character* Game::AllocateCharacter(int classIndex, int teamNum)
+Character* Game::AllocateCharacter(int classIndex, int teamNum, Player* owner)
 {
+    assert(owner);
+    
     Character* allocatedChar = nullptr;
     
     switch(classIndex)
@@ -301,6 +303,8 @@ Character* Game::AllocateCharacter(int classIndex, int teamNum)
         break;
     }
 
+    owner->AddCharacter(allocatedChar);
+    
     return allocatedChar;
 }
 

@@ -11,6 +11,7 @@ class Game
 {
 public:
     Game(){};
+    
     void StartNewMatch();
     void EndMatch();
     
@@ -23,7 +24,7 @@ private:
     void GameLoop();
     void BeginTurn();
     
-    Character* AllocateCharacter(int classIndex, int teamNum);
+    Character* AllocateCharacter(int classIndex, int teamNum, Player* owner);
     
     BattleField* _battlefield;
     std::vector<Player*> _players;
