@@ -1,20 +1,7 @@
 ﻿#include "Utils.h"
 #include "Battlefield/Tile.h"
 
-int Utils::clamp(int min, int max, int value)
-{
-    if(value > max)
-    {
-        return max;
-    }
-    
-    if(value < min)
-    {
-        return min;
-    }
 
-    return value;
-}
 
 double Utils::distanceBetween(Tile* from, Tile* to)
 {

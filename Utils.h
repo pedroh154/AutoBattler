@@ -6,6 +6,21 @@ class Character;
 class Utils
 {
 public:
-    static int clamp(int min, int max, int value);
+    template<typename T>
+    static T Clamp(T min, T max, T value)
+    {
+        if(value > max)
+        {
+            return max;
+        }
+    
+        if(value < min)
+        {
+            return min;
+        }
+
+        return value;
+    }
+    
     static double distanceBetween(Tile* from, Tile* to);
 };

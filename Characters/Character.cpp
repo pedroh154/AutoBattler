@@ -1,4 +1,6 @@
 #include "Character.h"
+#include "../Utils.h"
+#include "../Battlefield/Tile.h"
 
 Character::Character(Player* owner, Tile* destination)
 {

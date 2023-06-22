@@ -1,47 +1,49 @@
 #pragma once
 #include <string>
-#include "../Utils.h"
 #include "../Player.h"
+#include "../Utils.h"
 
+struct Tile;
 class Game;
 
 struct CharAttributes
 {
+    
 private:
-    float Health = 100.0f;
-    float BaseDamage = 30.0f;
-    float DamageMultiplier = 1.0f;
+    float _health = 100.0f;
+    float _baseDamage = 30.0f;
+    float _damageMultiplier = 1.0f;
+    float _maxHealth = 100.0f;
 
 public:
     float GetHealth() const
     {
-        return Health;
+        return _health;
     }
 
     void SetHealth(float health)
     {
-        int clampedValue = Utils::clamp(0, Health, health);
-        Health = clampedValue;
+        _health = Utils::Clamp<float>(0.0f, _maxHealth, health);
     }
 
     float GetBaseDamage() const
     {
-        return BaseDamage;
+        return _baseDamage;
     }
 
     void SetBaseDamage(float base_damage)
     {
-        BaseDamage = base_damage;
+        _baseDamage = base_damage;
     }
 
     float GetDamageMultiplier() const
     {
-        return DamageMultiplier;
+        return _damageMultiplier;
     }
 
     void SetDamageMultiplier(float damage_multiplier)
     {
-        DamageMultiplier = damage_multiplier;
+        _damageMultiplier = damage_multiplier;
     }
 };
 
