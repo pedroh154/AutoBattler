@@ -33,6 +33,7 @@ private:
     std::vector<Player*> _players;
     std::vector<std::vector<Character*>>* _characters; //heap allocation
     
+    
     int _numOfCharPerPlayer = 0;
     int _turnCounter = 0;
     int _defeatedPlayers = 0;

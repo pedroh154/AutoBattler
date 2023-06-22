@@ -13,7 +13,7 @@ class BattleField
 public:
 	BattleField(int gridRowNum, int gridColNum);
 	void DrawGrid();
-
+	std::vector<Tile*> _unnocupiedTiles;
 
 private:
 	Grid* _grid;
@@ -33,7 +33,8 @@ public:
 	int GetRandomInt(int min, int max);
 	int GetRandomRow();
 	int GetRandomCol();
-
+	Tile* GetRandomTile(bool mustBeUnoccupied = false);
+	
 	virtual Character* GetClosestCharacterFrom(Tile* tile, bool ignoreSameTeam = false);
 	
 };

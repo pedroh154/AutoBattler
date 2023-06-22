@@ -101,6 +101,14 @@ void Game::SetupPlayers()
 
 void Game::PopulateBattlefield()
 {
+    for(auto row: _battlefield->GetBattlefieldTiles())
+    {
+        for(auto tile: row)
+        {
+            _battlefield->_unnocupiedTiles.push_back(tile);
+        }
+    }
+    
     int charTypeChoice = -1;
     int rowChoice = -1;
     int colChoice = -1;
@@ -204,14 +212,12 @@ void Game::PopulateBattlefield()
             while(numOfInitializedChars != _numOfCharPerPlayer)
             {
                 charTypeChoice = GetRandomCharacterType();
-                rowChoice = _battlefield->GetRandomRow();
-                colChoice = _battlefield->GetRandomCol();
-                
-                Character* newChar = AllocateCharacter(charTypeChoice, player, _battlefield->GetGrid()->_tiles[rowChoice][colChoice]);
+                Tile* tile = _battlefield->GetRandomTile(true);
+                Character* newChar = AllocateCharacter(charTypeChoice, player, tile);
                 
                 numOfInitializedChars++;
 
-                std::cout << "inserted " << newChar->GetName() << " @ " << rowChoice << ", " << colChoice << std::endl;
+                std::cout << "inserted " << newChar->GetName() << " @ " << tile->GetRowNum() << ", " << tile->GetColumnNum() << std::endl;
             }
             
             system("pause");
@@ -276,7 +282,7 @@ Player* Game::GetRandomPlayer()
 {
     for(int i = 0; i < _players.size(); i++)
     {
-        return _players[_battlefield->GetRandomInt(0, _players.size())];
+        return _players[_battlefield->GetRandomInt(0, _players.size() - 1)];
     }
 }
 
@@ -287,8 +293,10 @@ bool Game::IsValidCharacterType(int characterType)
 
 int Game::GetRandomCharacterType()
 {
-    srand(time(nullptr));
-    return 1 + (rand() % Types::MAX - 1);
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,Types::MAX - 1);
+    return dist6(rng);
 }
 
 Character* Game::AllocateCharacter(int classIndex, Player* owner, Tile* tile)
@@ -318,6 +326,7 @@ Character* Game::AllocateCharacter(int classIndex, Player* owner, Tile* tile)
     }
 
     owner->AddCharacter(allocatedChar);
+    tile->SetCurrentCharacter(allocatedChar);
     
     return allocatedChar;
 }
