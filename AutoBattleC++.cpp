@@ -173,7 +173,7 @@ void Game::PopulateBattlefield()
                     }
                 }
 
-                Character* newChar = AllocateCharacter(charTypeChoice, player->TeamNum);
+                Character* newChar = AllocateCharacter(charTypeChoice, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1], player);
                 _battlefield->InsertCharacterInBattlefield(newChar, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1]);
                 _characters[0][1];
                 
@@ -196,7 +196,7 @@ void Game::PopulateBattlefield()
                 rowChoice = _battlefield->GetRandomRow();
                 colChoice = _battlefield->GetRandomCol();
                 
-                Character* newChar = AllocateCharacter(charTypeChoice, player->TeamNum);
+                Character* newChar = AllocateCharacter(charTypeChoice, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1], player);
                 _battlefield->InsertCharacterInBattlefield(newChar, _battlefield->GetGrid()->_tiles[rowChoice][colChoice]);
                 
                 numOfInitializedChars++;
@@ -281,7 +281,7 @@ int Game::GetRandomCharacterType()
     return 1 + (rand() % Types::MAX - 1);
 }
 
-Character* Game::AllocateCharacter(int classIndex, int teamNum, Player* owner)
+Character* Game::AllocateCharacter(int classIndex, Tile* tile, Player* owner)
 {
     assert(owner);
     
@@ -290,16 +290,16 @@ Character* Game::AllocateCharacter(int classIndex, int teamNum, Player* owner)
     switch(classIndex)
     {
     case 1:
-        allocatedChar = new Paladin(teamNum);
+        allocatedChar = new Paladin(owner, tile);
         break;
     case 2:
-        allocatedChar = new Warrior(teamNum);
+        allocatedChar = new Warrior(owner, tile);
         break;
     case 3:
-        allocatedChar = new Cleric(teamNum);
+        allocatedChar = new Cleric(owner, tile);
         break;
     case 4:
-        allocatedChar = new Archer(teamNum);
+        allocatedChar = new Archer(owner, tile);
         break;
     }
 

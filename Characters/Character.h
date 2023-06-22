@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+struct Tile;
+class Player;
 class Game;
 
 struct CharAttributes
@@ -51,7 +53,7 @@ protected:
 
 public:
     virtual ~Character() = default;
-    Character(int teamNum);
+    Character(Player* _owner, Tile* tile);
     
     CharAttributes CharacterAttributes;
 
@@ -73,6 +75,6 @@ public:
             _teamNum = teamNum;
     }
 
-    
+    Player* _owner;
 };
 

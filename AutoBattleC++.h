@@ -3,6 +3,7 @@
 #include <random>
 #include <Vector>
 
+struct Tile;
 class Character;
 class BattleField;
 class Player;
@@ -24,7 +25,7 @@ private:
     void GameLoop();
     void BeginTurn();
     
-    Character* AllocateCharacter(int classIndex, int teamNum, Player* owner);
+    Character* AllocateCharacter(int classIndex, Tile* tile, Player* owner);
     
     BattleField* _battlefield;
     std::vector<Player*> _players;

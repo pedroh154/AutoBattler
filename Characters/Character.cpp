@@ -1,8 +1,8 @@
 #include "Character.h"
 
-Character::Character(int teamNum)
+
+Character::Character(Player* _owner, Tile* tile)
 {
-    SetTeamNum(teamNum);
 }
 
 void Character::Move()
