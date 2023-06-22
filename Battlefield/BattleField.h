@@ -1,4 +1,5 @@
 #pragma once
+#include "Grid.h"
 #include "../Characters/Character.h"
 
 struct Tile;
@@ -23,6 +24,11 @@ public:
 	{
 		return _grid;
 	}
+
+	std::vector<std::vector<Tile*>> GetBattlefieldTiles() const
+	{
+		return _grid->_tiles;
+	};
 	
 	int GetRandomInt(int min, int max);
 	int GetRandomRow();

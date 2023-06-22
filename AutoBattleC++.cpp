@@ -39,6 +39,8 @@ void Game::SetupBattlefield()
 
         std::cout << "Enter number of columns: " << std::endl;
         std::cin >> sizeY;
+
+        system("cls");
     }
     
     _battlefield = new BattleField(sizeX, sizeY);
@@ -49,6 +51,7 @@ void Game::SetupBattlefield()
     system("cls");
     
     _battlefield->DrawGrid();
+    std::cout << "\n";
     system("pause");
     system("cls");
 }
@@ -91,7 +94,7 @@ void Game::SetupPlayers()
     assert((_players.size()) == totalPlayers);
 
     system("cls");
-    std::cout << "Match will start with " << totalPlayers << " players, from which " << numOfCpu << " will be controlled by CPU." << std::endl;
+    std::cout << "Match will start with " << totalPlayers << " players, whose " << numOfCpu << " will be controlled by CPU." << std::endl;
     system("pause");
     system("cls");
 }
@@ -108,10 +111,10 @@ void Game::PopulateBattlefield()
         numOfInitializedChars = 0;
 
         system("cls");
-        std::cout << player->GetName() << ": POPULATE YOUR BATTLEFIELD" << std::endl;
+        std::cout << player->GetName() << ": POSITION YOUR UNITS!" << std::endl;
         
         _battlefield->DrawGrid();
-        
+        std::cout << std::endl;
         if(!player->CpuControlled)
         {
             while(numOfInitializedChars != _numOfCharPerPlayer)
@@ -122,7 +125,15 @@ void Game::PopulateBattlefield()
                 bool validCharChoice = false;
                 while(!validCharChoice)
                 {
-                    std::cout << "Type your character's class" << std::endl;
+                    std::cout << "Type your character's class:" << std::endl;
+                    
+                    for(int i = 1; i < Types::CharacterClass::MAX; i++)
+                    {
+                        std::cout << "[" << i << "]" << Types::GetClassNameByCharacter(static_cast<Types::CharacterClass>(i));
+                        std::cout << " ";
+                    }
+
+                    std::cout << std::endl;
                     std::cin >> charTypeChoice;
 
                     if(!IsValidCharacterType(charTypeChoice))
@@ -174,7 +185,8 @@ void Game::PopulateBattlefield()
                     }
                 }
 
-                Character* newChar = AllocateCharacter(charTypeChoice, player, _battlefield->GetGrid()->_tiles[rowChoice - 1][colChoice - 1]);
+                Character* newChar =
+                    AllocateCharacter(charTypeChoice, player, _battlefield->GetBattlefieldTiles()[rowChoice - 1][colChoice - 1]);
                 
                 numOfInitializedChars++;
 
